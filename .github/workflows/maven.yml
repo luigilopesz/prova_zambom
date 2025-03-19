@@ -49,4 +49,4 @@ jobs:
         script: |
           docker stop prova_i
           docker rm --force prova_i
-          docker run -d -p 8080:8080 --name prova_i luigilopesz/luigilopesz:${{ github.sha }}
+          docker run -d -p 8080:8080 --name prova_i luigilopesz/prova_i:${{ github.sha }}
