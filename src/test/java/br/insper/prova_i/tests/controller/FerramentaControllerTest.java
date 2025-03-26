@@ -26,77 +26,103 @@ import java.util.Map;
 @ExtendWith(MockitoExtension.class)
 public class FerramentaControllerTest {
 
-        @InjectMocks
-        private FerramentaController ferramentaController;
+    @InjectMocks
+    private FerramentaController ferramentaController;
 
-        @Mock
-        private FerramentaService ferramentaService;
+    @Mock
+    private FerramentaService ferramentaService;
 
-        @Mock
-        private RestTemplate restTemplate;
+    @Mock
+    private RestTemplate restTemplate;
 
-        private MockMvc mockMvc;
+    private MockMvc mockMvc;
 
-        @BeforeEach
-        void setup() {
-                this.mockMvc = MockMvcBuilders
-                        .standaloneSetup(ferramentaController)
-                        .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
-                        .build();
+    @BeforeEach
+    void setup() {
+        this.mockMvc = MockMvcBuilders
+                .standaloneSetup(ferramentaController)
+                .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
+                .build();
 
-                Mockito.lenient().when(restTemplate.getForObject(Mockito.anyString(), Mockito.eq(Map.class)))
-                        .thenReturn(Map.of("nome", "Admin", "email", "admin@empresa.com", "papel", "ADMIN"));
-        }
+        // Mock para usuário com papel ADMIN
+        Mockito.lenient().when(restTemplate.getForObject(Mockito.anyString(), Mockito.eq(Map.class)))
+                .thenReturn(Map.of("nome", "Admin", "email", "admin@empresa.com", "papel", "ADMIN"));
+    }
 
-        @Test
-        void testListarFerramentas() throws Exception {
-                List<Ferramenta> ferramentas = Arrays.asList(
-                                new Ferramenta("1", "Furadeira", "Furadeira elétrica", "Mecânica", "Admin",
-                                                "admin@empresa.com"),
-                                new Ferramenta("2", "Martelo", "Martelo de aço", "Mecânica", "Admin",
-                                                "admin@empresa.com"));
+    @Test
+    void testListarFerramentas() throws Exception {
+        List<Ferramenta> ferramentas = Arrays.asList(
+                new Ferramenta("1", "Furadeira", "Furadeira elétrica", "Mecânica", "Admin", "admin@empresa.com"),
+                new Ferramenta("2", "Martelo", "Martelo de aço", "Mecânica", "Admin", "admin@empresa.com")
+        );
 
-                ObjectMapper objectMapper = new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper();
 
-                Mockito.when(ferramentaService.findAll()).thenReturn(ferramentas);
+        Mockito.when(ferramentaService.findAll()).thenReturn(ferramentas);
 
-                mockMvc.perform(MockMvcRequestBuilders.get("/api/ferramentas"))
-                                .andExpect(MockMvcResultMatchers.status().isOk())
-                                .andExpect(MockMvcResultMatchers.content()
-                                                .json(objectMapper.writeValueAsString(ferramentas)));
-        }
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/ferramentas"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content()
+                        .json(objectMapper.writeValueAsString(ferramentas)));
+    }
 
-        @Test
-        void testCriarFerramenta() throws Exception {
-                Ferramenta ferramenta = new Ferramenta(null, "Furadeira", "Furadeira elétrica", "Mecânica", "Admin",
-                                "admin@empresa.com");
-                Ferramenta ferramentaSalva = new Ferramenta("1", "Furadeira", "Furadeira elétrica", "Mecânica", "Admin",
-                                "admin@empresa.com");
+    @Test
+    void testCriarFerramenta() throws Exception {
+        Ferramenta ferramenta = new Ferramenta(null, "Furadeira", "Furadeira elétrica", "Mecânica", "Admin", "admin@empresa.com");
+        Ferramenta ferramentaSalva = new Ferramenta("1", "Furadeira", "Furadeira elétrica", "Mecânica", "Admin", "admin@empresa.com");
 
-                ObjectMapper objectMapper = new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper();
 
-                Mockito.when(ferramentaService.save(
-                                Mockito.anyString(),
-                                Mockito.anyString(),
-                                Mockito.anyString(),
-                                Mockito.anyString(),
-                                Mockito.anyString())).thenReturn(ferramentaSalva);
+        Mockito.when(ferramentaService.save(
+                Mockito.anyString(),
+                Mockito.anyString(),
+                Mockito.anyString(),
+                Mockito.anyString(),
+                Mockito.anyString())).thenReturn(ferramentaSalva);
 
-                mockMvc.perform(MockMvcRequestBuilders.post("/api/ferramentas")
-                                .header(HttpHeaders.CONTENT_TYPE, "application/json")
-                                .header("email", "admin@empresa.com")
-                                .content(objectMapper.writeValueAsString(ferramenta)))
-                                .andExpect(MockMvcResultMatchers.status().isOk())
-                                .andExpect(MockMvcResultMatchers.content()
-                                                .json(objectMapper.writeValueAsString(ferramentaSalva)));
-        }
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/ferramentas")
+                        .header(HttpHeaders.CONTENT_TYPE, "application/json")
+                        .header("email", "admin@empresa.com")
+                        .content(objectMapper.writeValueAsString(ferramenta)))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content()
+                        .json(objectMapper.writeValueAsString(ferramentaSalva)));
+    }
 
-        @Test
-        void testExcluirFerramenta() throws Exception {
-                Mockito.doNothing().when(ferramentaService).deleteById("1");
+    @Test
+    void testExcluirFerramenta() throws Exception {
+        Mockito.doNothing().when(ferramentaService).deleteById("1");
 
-                mockMvc.perform(MockMvcRequestBuilders.delete("/api/ferramentas/1")
-                                .header("email", "admin@empresa.com"))
-                                .andExpect(MockMvcResultMatchers.status().isOk());
-        }
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/ferramentas/1")
+                        .header("email", "admin@empresa.com"))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    void testCriarFerramentaSemPermissao() throws Exception {
+        Ferramenta ferramenta = new Ferramenta(null, "Furadeira", "Furadeira elétrica", "Mecânica", "User", "user@empresa.com");
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        // Mock para usuário sem papel ADMIN
+        Mockito.when(restTemplate.getForObject(Mockito.anyString(), Mockito.eq(Map.class)))
+                .thenReturn(Map.of("nome", "User", "email", "user@empresa.com", "papel", "USER"));
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/ferramentas")
+                        .header(HttpHeaders.CONTENT_TYPE, "application/json")
+                        .header("email", "user@empresa.com")
+                        .content(objectMapper.writeValueAsString(ferramenta)))
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
+    }
+
+    @Test
+    void testExcluirFerramentaSemPermissao() throws Exception {
+        // Mock para usuário sem papel ADMIN
+        Mockito.when(restTemplate.getForObject(Mockito.anyString(), Mockito.eq(Map.class)))
+                .thenReturn(Map.of("nome", "User", "email", "user@empresa.com", "papel", "USER"));
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/ferramentas/1")
+                        .header("email", "user@empresa.com"))
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
+    }
 }

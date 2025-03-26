@@ -26,8 +26,8 @@ import java.util.Map;
                                         @RequestHeader(name = &quot;email&quot;) String email) {
 <span class="fc" id="L27">                Map&lt;String, Object&gt; usuario = getUsuarioByEmail(email);</span>
 
-<span class="pc bpc" id="L29" title="1 of 2 branches missed.">                if (!&quot;ADMIN&quot;.equals(usuario.get(&quot;papel&quot;))) {</span>
-<span class="nc" id="L30">                        throw new ResponseStatusException(HttpStatus.FORBIDDEN,</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">                if (!&quot;ADMIN&quot;.equals(usuario.get(&quot;papel&quot;))) {</span>
+<span class="fc" id="L30">                        throw new ResponseStatusException(HttpStatus.FORBIDDEN,</span>
                                 &quot;Usuário não tem permissão para criar ferramentas.&quot;);
                 }
 
@@ -44,8 +44,8 @@ import java.util.Map;
         public void deleteFerramenta(@PathVariable String id, @RequestHeader(name = &quot;email&quot;) String email) {
 <span class="fc" id="L45">                Map&lt;String, Object&gt; usuario = getUsuarioByEmail(email);</span>
 
-<span class="pc bpc" id="L47" title="1 of 2 branches missed.">                if (!&quot;ADMIN&quot;.equals(usuario.get(&quot;papel&quot;))) {</span>
-<span class="nc" id="L48">                        throw new ResponseStatusException(HttpStatus.FORBIDDEN,</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">                if (!&quot;ADMIN&quot;.equals(usuario.get(&quot;papel&quot;))) {</span>
+<span class="fc" id="L48">                        throw new ResponseStatusException(HttpStatus.FORBIDDEN,</span>
                                         &quot;Usuário não tem permissão para excluir ferramentas.&quot;);
                 }
 
