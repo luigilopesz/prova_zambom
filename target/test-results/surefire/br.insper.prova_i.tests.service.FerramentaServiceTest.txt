@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: br.insper.prova_i.tests.service.FerramentaServiceTest
 -------------------------------------------------------------------------------
-Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.102 s -- in br.insper.prova_i.tests.service.FerramentaServiceTest
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.298 s -- in br.insper.prova_i.tests.service.FerramentaServiceTest
