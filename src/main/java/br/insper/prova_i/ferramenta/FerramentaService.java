@@ -12,7 +12,14 @@ public class FerramentaService {
         private FerramentaRepo ferramentaRepo;
         
         
-        public Ferramenta save(Ferramenta ferramenta) {
+        public Ferramenta save(String nome, String descricao, String categoria, String nomeUsuario, String emailUsuario) {
+                Ferramenta ferramenta = new Ferramenta();
+                ferramenta.setName(nome);
+                ferramenta.setDescription(descricao);
+                ferramenta.setCategory(categoria);
+                ferramenta.setUserName(nomeUsuario);
+                ferramenta.setUserEmail(emailUsuario);
+
                 return ferramentaRepo.save(ferramenta);
         }
         

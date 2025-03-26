@@ -23,17 +23,21 @@ public class FerramentaController {
 
         @PostMapping
         public Ferramenta createFerramenta(@RequestBody Ferramenta ferramenta,
-                        @RequestHeader(name = "email") String email) {
+                                        @RequestHeader(name = "email") String email) {
                 Map<String, Object> usuario = getUsuarioByEmail(email);
 
                 if (!"ADMIN".equals(usuario.get("papel"))) {
                         throw new ResponseStatusException(HttpStatus.FORBIDDEN,
-                                        "Usuário não tem permissão para criar ferramentas.");
+                                "Usuário não tem permissão para criar ferramentas.");
                 }
 
-                ferramenta.setUserName((String) usuario.get("nome"));
-                ferramenta.setUserEmail((String) usuario.get("email"));
-                return ferramentaService.save(ferramenta);
+                return ferramentaService.save(
+                        ferramenta.getName(),
+                        ferramenta.getDescription(),
+                        ferramenta.getCategory(),
+                        (String) usuario.get("nome"),
+                        (String) usuario.get("email")
+                );
         }
 
         @DeleteMapping("/{id}")
