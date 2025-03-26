@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: br.insper.prova_i.tests.controller.FerramentaControllerTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.889 s -- in br.insper.prova_i.tests.controller.FerramentaControllerTest

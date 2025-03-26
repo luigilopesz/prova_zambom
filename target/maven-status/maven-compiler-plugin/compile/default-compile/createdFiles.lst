@@ -1,2 +1,5 @@
 br/insper/prova_i/ProvaIApplication.class
-br/insper/prova_i/tests/TestController.class
+br/insper/prova_i/ferramenta/FerramentaController.class
+br/insper/prova_i/ferramenta/FerramentaRepo.class
+br/insper/prova_i/ferramenta/Ferramenta.class
+br/insper/prova_i/ferramenta/FerramentaService.class
