@@ -2,11 +2,15 @@ package br.insper.prova_i.ferramenta;
 
 import org.springframework.data.annotation.Id;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Ferramenta {
        @Id
        private String id;

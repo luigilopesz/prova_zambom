@@ -1,1 +1,2 @@
-/home/luigi/insper_4sem/zambao/prova_zambom/src/test/java/br/insper/prova_i/tests/TestControllerTest.java
+/home/luigi/insper_4sem/zambao/prova_zambom/src/test/java/br/insper/prova_i/tests/controller/FerramentaControllerTest.java
+/home/luigi/insper_4sem/zambao/prova_zambom/src/test/java/br/insper/prova_i/tests/service/FerramentaServiceTest.java

@@ -1,1 +1,2 @@
-br/insper/prova_i/tests/TestControllerTest.class
+br/insper/prova_i/tests/service/FerramentaServiceTest.class
+br/insper/prova_i/tests/controller/FerramentaControllerTest.class
