@@ -1,2 +1,2 @@
 COBERTURA DE TESTS:
-![Cobertura de Testes](.github/badges/coverage.svg)
+![Cobertura de Testes](.github/badges/jacoco.svg)
